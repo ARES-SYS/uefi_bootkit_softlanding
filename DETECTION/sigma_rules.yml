@@ -1,0 +1,94 @@
+title: SoftLanding UEFI Bootkit — VenHw Firmware Entry
+id: ares-sys-0001
+status: stable
+level: critical
+description: Detects VenHw boot entry from SoftLanding DXE driver
+author: ares-sys
+date: 2026/07/28
+logsource:
+    product: linux
+    service: efibootmgr
+detection:
+    keywords:
+        - 'VenHw(99E275E7-75A0-4B37-A2E6-C5385E6C00CB)'
+    condition: keywords
+---
+title: SoftLanding — EFI Artifacts on Disk
+id: ares-sys-0002
+status: stable
+level: critical
+description: Detects mach_kernel or SystemVersion.plist in EFI
+author: ares-sys
+date: 2026/07/28
+logsource:
+    product: linux
+    category: file_access
+detection:
+    selection:
+        FileName|contains:
+            - '/boot/efi/mach_kernel'
+            - '/boot/efi/System/Library/CoreServices/SystemVersion.plist'
+    condition: selection
+---
+title: SoftLanding — C2 Network Connection
+id: ares-sys-0003
+status: stable
+level: high
+description: Network connections to C2 infrastructure
+author: ares-sys
+date: 2026/07/28
+logsource:
+    category: network_connection
+detection:
+    selection:
+        DestinationIp|cidr:
+            - '83.142.209.0/24'
+            - '185.95.159.32/32'
+    condition: selection
+---
+title: SoftLanding — Deadman Switch Token
+id: ares-sys-0004
+status: stable
+level: critical
+description: Deadman switch token in traffic
+author: ares-sys
+date: 2026/07/28
+logsource:
+    category: proxy
+detection:
+    selection:
+        c-useragent|contains: 'IfYouRevokeThisTokenItWillWipeTheComputerOfTheOwner'
+    condition: selection
+---
+title: SoftLanding — GitHub Dead-Drop DNS
+id: ares-sys-0005
+status: stable
+level: high
+description: DNS queries to known C2 domains
+author: ares-sys
+date: 2026/07/28
+logsource:
+    category: dns
+detection:
+    selection:
+        query|contains:
+            - 't.m-kosche.com'
+            - 'git-tanstack.com'
+            - 'filev2.getsession.org'
+    condition: selection
+---
+title: SoftLanding — GPU Mining Detection
+id: ares-sys-0006
+status: stable
+level: medium
+description: Stratum mining protocol or XMRig agent
+author: ares-sys
+date: 2026/07/28
+logsource:
+    category: proxy
+detection:
+    keywords:
+        - 'stratum'
+        - 'XMRig'
+        - 'cryptonight'
+    condition: keywords
