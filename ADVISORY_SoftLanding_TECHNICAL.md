@@ -11,11 +11,7 @@
 
 "Your PC may still be infected. Reinstalling the OS will not
 help. The enemy is not in your files — it is in your firmware."
-
-                        — ares-sys
-
-
-═══════════════════════════════════════════════════════════
+══════════════════════════════════════════════════════════
 EXECUTIVE SUMMARY
 ═══════════════════════════════════════════════════════════
 
