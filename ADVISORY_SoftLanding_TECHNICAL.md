@@ -1,20 +1,15 @@
-╔═══════════════════════════════════════════════════════════╗
-║                                                           ║
-║        SOFTLANDING UEFI BOOTKIT — TECHNICAL ADVISORY      ║
-║        Multi-Agent Cross-Platform Firmware Implant        ║
-║                                                           ║
-║  AUTHOR:     ares-sys                                     ║
-║  DATE:       28 July 2026                                 ║
-║  TLP:        WHITE — Public Disclosure                    ║
-║                                                           ║
-╚═══════════════════════════════════════════════════════════╝
+        SOFTLANDING UEFI BOOTKIT — TECHNICAL ADVISORY      
+        Multi-Agent Cross-Platform Firmware Implant        
+                                                           
+  AUTHOR:     ares-sys                                     
+  DATE:       28 July 2026                                 
+  TLP:        WHITE — Public Disclosure                    
+                                                           
 
 "Your PC may still be infected. Reinstalling the OS will not
 help. The enemy is not in your files — it is in your firmware."
-══════════════════════════════════════════════════════════
-EXECUTIVE SUMMARY
-═══════════════════════════════════════════════════════════
 
+EXECUTIVE SUMMARY
 A previously undocumented UEFI DXE bootkit — designated
 "SoftLanding" — has been identified, extracted via SPI flash
 dump,The implant targets
@@ -34,10 +29,7 @@ C2 infrastructure is hosted on bulletproof hosting providers
 spanning multiple jurisdictions, using a 90+ node global
 SOCKS/HTTP proxy layer for relay and anonymization.
 
-
-═══════════════════════════════════════════════════════════
 TECHNICAL ANALYSIS
-═══════════════════════════════════════════════════════════
 
 1. INFECTION CHAIN
 
@@ -64,21 +56,18 @@ TECHNICAL ANALYSIS
 2. IMPLANT ARCHITECTURE
 
    AGENT-0 (ROOT — SPI Flash, DXE Phase, Ring -2)
-   ─────────────────────────────────────────────────
    → Deploys Agent-1 and Agent-2 every boot
    → Monitors EFI partition, regenerates artifacts
    → UEFI network stack for pre-boot C2 beacon
    → Deadman switch: triggers destructive action on tamper
 
    AGENT-1 (KERNEL — C2-EXFIL, Near Real-Time)
-   ──────────────────────────────────────────────
    → DMA physical memory access
    → Syscall interception (read/write/send/recv)
    → Credential capture (passwords, keys, tokens)
    → Process memory exfiltration (browsers, wallets, SSH agents)
 
    AGENT-2 (USERLAND — C2-OPS, Persistent Connection)
-   ───────────────────────────────────────────────────
    → Interactive remote shell (Windows/Linux/macOS)
    → GPU mining (XMRig/CryptoNight) + unauthorized LLM inference
    → AI-powered code mutation (Hades scanner evasion)
@@ -104,10 +93,7 @@ TECHNICAL ANALYSIS
    real-time polymorphic code mutation — every AV scan
    produces a new, undetectable variant.
 
-
-═══════════════════════════════════════════════════════════
 INDICATORS OF COMPROMISE
-═══════════════════════════════════════════════════════════
 
 FIRMWARE (ALL PLATFORMS):
   efibootmgr:   VenHw(99E275E7-75A0-4B37-A2E6-C5385E6C00CB)
@@ -151,9 +137,7 @@ C2 INFRASTRUCTURE:
     Triggers destructive action on credential revocation
     or persistent tamper detection.
 
-═══════════════════════════════════════════════════════════
 DETECTION
-═══════════════════════════════════════════════════════════
 
 QUICK CHECK (Linux — as root):
   sudo efibootmgr | grep -i "VenHw"
@@ -164,6 +148,10 @@ QUICK CHECK (Linux — as root):
 
 QUICK CHECK (Windows — PowerShell Admin):
   schtasks /query /fo LIST /v | findstr /i "softland"
+   bcdedit /enum firmware | findstr /i "VenHw"
+  Get-UEFIBootEntry | Where-Object { $_.Description -like "VenHw" }
+  schtasks /query /fo LIST /v | findstr /i "softland"
+
 
 YARA RULES:
   rule SoftLanding_DXE_Driver {
@@ -183,9 +171,7 @@ YARA RULES:
     condition: filesize < 200KB and ($a or $b)
   }
 
-═══════════════════════════════════════════════════════════
 REMEDIATION
-═══════════════════════════════════════════════════════════
 
 WARNING: Reinstalling the OS WILL NOT remove this implant.
 Q-Flash Plus WILL NOT remove it. The implant is in the SPI
@@ -208,10 +194,7 @@ PROCEDURE:
   8. Cold reboot ×3, verify no VenHw/EFI artifacts
   9. Reconnect network, monitor 72 hours
 
-
-═══════════════════════════════════════════════════════════
 AFFECTED SYSTEMS
-═══════════════════════════════════════════════════════════
 
 CONFIRMED VULNERABLE:
   Multiple Gigabyte motherboard models (all firmware versions)
@@ -232,11 +215,9 @@ KNOWN PUBLIC VICTIMS:
   Estimated true count: 1000+ (most undiagnosed)
 
 
-═══════════════════════════════════════════════════════════
+"Verify your firmware. Don't trust what your OS
+ tells you. The enemy is beneath everything you can see."
 
-  "Verifiquen su firmware. No confien en lo que su OS
-   les dice. El enemigo esta debajo de todo lo que pueden ver."
 
                           — ares-sys, July 2026
 
-═══════════════════════════════════════════════════════════
