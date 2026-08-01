@@ -1,11 +1,9 @@
 # SOFTLANDING UEFI BOOTKIT — Remediation Guide
 # Author: ares-sys — JULY 2026
 
-═══════════════════════════════════════════════════════════
 CRITICAL WARNING
-═══════════════════════════════════════════════════════════
 
-  SOFTWARE REMEDIATION IS IMPOSSIBLE.
+SOFTWARE REMEDIATION IS IMPOSSIBLE.
 
   This implant lives in the SPI flash chip — a physical
   component soldered to your motherboard. Reinstalling
@@ -15,9 +13,7 @@ CRITICAL WARNING
   You MUST reprogram the SPI flash chip with an external
   programmer. There is no other way.
 
-═══════════════════════════════════════════════════════════
 STEP 1 — CHECK IF YOU ARE INFECTED
-═══════════════════════════════════════════════════════════
 
   LINUX:
     sudo efibootmgr | grep -i "VenHw"
@@ -35,9 +31,9 @@ STEP 1 — CHECK IF YOU ARE INFECTED
     - Reinstalling OS doesn't fix boot problems
     - "VenHw" entries appear in BIOS boot menu
 
-═══════════════════════════════════════════════════════════
+
 STEP 2 — ACQUIRE TOOLS
-═══════════════════════════════════════════════════════════
+
 
   REQUIRED (~$8 total):
     - CH341A USB SPI programmer
@@ -54,9 +50,7 @@ STEP 2 — ACQUIRE TOOLS
     Gigabyte: https://www.gigabyte.com/Support
     Extract the .bin or .rom file (typically 16-32MB).
 
-═══════════════════════════════════════════════════════════
 STEP 3 — LOCATE THE SPI CHIP
-═══════════════════════════════════════════════════════════
 
   1. POWER OFF COMPLETELY
      - Shut down normally
@@ -79,9 +73,7 @@ STEP 3 — LOCATE THE SPI CHIP
      - Near the BIOS battery
      - Between PCIe slots and chipset heatsink
 
-═══════════════════════════════════════════════════════════
 STEP 4 — CONNECT THE PROGRAMMER
-═══════════════════════════════════════════════════════════
 
   CH341A Pinout (check your programmer's label):
     1  CS   (Chip Select)    → SPI pin 1 (CS)
@@ -98,9 +90,7 @@ STEP 4 — CONNECT THE PROGRAMMER
     - Verify orientation BEFORE connecting USB
     - Never hot-plug the clip (connect clip → then USB)
 
-═══════════════════════════════════════════════════════════
 STEP 5 — BACKUP INFECTED FIRMWARE
-═══════════════════════════════════════════════════════════
 
   # Identify the chip
   sudo flashrom -p ch341a_spi
@@ -115,9 +105,7 @@ STEP 5 — BACKUP INFECTED FIRMWARE
   # Make a backup copy
   cp infected.bin infected_backup_$(date +%Y%m%d).bin
 
-═══════════════════════════════════════════════════════════
 STEP 6 — WRITE CLEAN FIRMWARE
-═══════════════════════════════════════════════════════════
 
   # Verify clean firmware size (must match your chip)
   ls -la CLEAN_FIRMWARE.bin
@@ -133,9 +121,7 @@ STEP 6 — WRITE CLEAN FIRMWARE
   sudo flashrom -p ch341a_spi --flash-name  # just to check
   # Unplug USB, then unclip
 
-═══════════════════════════════════════════════════════════
 STEP 7 — RECONSTRUCTION (AIR-GAPPED!)
-═══════════════════════════════════════════════════════════
 
   ⚠️ DO NOT connect to network yet!
 
@@ -167,9 +153,7 @@ STEP 7 — RECONSTRUCTION (AIR-GAPPED!)
      - Watch network traffic (no calls to 83.142.209.x)
      - Check efibootmgr daily
 
-═══════════════════════════════════════════════════════════
 STEP 8 — POST-REMEDIATION HARDENING
-═══════════════════════════════════════════════════════════
 
   FIREWALL:
     # Block C2
@@ -189,9 +173,7 @@ STEP 8 — POST-REMEDIATION HARDENING
     # Weekly check
     crontab: @weekly efibootmgr | grep -i venhw && alert
 
-═══════════════════════════════════════════════════════════
 SAFETY CHECKLIST (before each step)
-═══════════════════════════════════════════════════════════
 
   [ ] Power completely OFF
   [ ] Capacitors discharged (30 sec wait)
@@ -203,7 +185,6 @@ SAFETY CHECKLIST (before each step)
   [ ] Verify after write (mandatory!)
   [ ] USB disconnected BEFORE removing clip
 
-═══════════════════════════════════════════════════════════
 If you need help or found this useful:
   ares-sys — July 2026
-═══════════════════════════════════════════════════════════
+
