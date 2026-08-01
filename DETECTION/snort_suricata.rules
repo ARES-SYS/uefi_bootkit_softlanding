@@ -11,9 +11,6 @@ alert tcp $HOME_NET any -> 83.142.209.0/24 any (msg:"SOFTLANDING - C2 Subnet Tra
 alert tcp $HOME_NET any -> 185.95.159.32 any (msg:"SOFTLANDING - C2 IP Traffic"; flow:to_server,established; classtype:trojan-activity; sid:20260011; rev:1;)
 alert tcp $HOME_NET any -> 85.209.11.79 any (msg:"SOFTLANDING - APT Infrastructure"; flow:to_server,established; classtype:trojan-activity; sid:20260012; rev:1;)
 
-# ─── PROXY RELAY LAYER (sample — use full list from iocs/) ───
-alert tcp $HOME_NET any -> [190.153.121.2,177.101.135.89,77.75.230.115,103.113.71.230,68.71.254.6] any (msg:"SOFTLANDING - Proxy Relay Layer Traffic"; flow:to_server,established; classtype:trojan-activity; sid:20260020; rev:1;)
-
 # ─── DEADMAN SWITCH TOKEN IN HTTP ───
 alert tcp $HOME_NET any -> any 443 (msg:"SOFTLANDING - Deadman Switch Token in HTTPS"; flow:to_server,established; content:"IfYouRevokeThisTokenItWillWipeTheComputerOfTheOwner"; nocase; classtype:trojan-activity; sid:20260030; rev:1;)
 
