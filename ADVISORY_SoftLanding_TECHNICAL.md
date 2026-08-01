@@ -75,18 +75,7 @@ TECHNICAL ANALYSIS
    → Screen, keystroke, and microphone capture
 
 3. AI-POWERED EVASION
-
-   ┌─────────────┐      ┌──────────────┐
-   │ AV Scanner   │ ───→ │  LLM (Ollama) │
-   │ detects      │      │  rewrites     │
-   │ signature    │      │  malware code │
-   └─────────────┘      └──────┬───────┘
-                               │
-                       ┌───────▼────────┐
-                       │  NEW VARIANT   │
-                       │  New SHA256    │
-                       │  Undetected    │
-                       └────────────────┘
+ AV Scanner detects signature -> LLM (Ollama) rewrites malware code -> new variant New sha256 undetected
 
    Documented as "Hades" technique by Zscaler.
    The implant abuses the victim's GPU to run Ollama for
