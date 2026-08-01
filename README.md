@@ -43,7 +43,6 @@ This is a **UEFI DXE firmware bootkit** installed in the **SPI flash chip** on y
 +**If you are NOT infected:**
 +1. Update your BIOS to the latest firmware — patches CVE-2025-7029
 +2. Enable Secure Boot
-+3. Block C2 IPs from `BLOCKLISTS/ip_blocklist.txt`
 +
 +**If you ARE infected:**
 +→ Go to `REMEDIATION/CH341A_flash_guide.md`
